@@ -3,7 +3,7 @@
     <div class="input-group shadow-sm mb-3">
       <input
         type="text"
-        class="form-control"
+        class="form-control me-2"
         placeholder="Enter text"
         [(ngModel)]="inputText"
         name="inputText"
@@ -12,7 +12,7 @@
       <button class="btn btn-primary" type="submit">Analyze</button>
     </div>
 
-    <div class="form-check form-switch">
+    <div class="form-check form-switch mb-3">
       <input
         class="form-check-input"
         type="checkbox"
@@ -22,8 +22,33 @@
         name="online"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault">
-        Online
+        {{ online ? 'Online' : 'Offline' }}
       </label>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="vowels"
+          name="letterType"
+          [(ngModel)]="letterType"
+          [value]="'Vowels'"
+        />
+        <label class="form-check-label" for="vowels">Vowels</label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="consonants"
+          name="letterType"
+          [(ngModel)]="letterType"
+          [value]="'Consonants'"
+        />
+        <label class="form-check-label" for="consonants">Consonants</label>
+      </div>
     </div>
   </form>
 </div>
