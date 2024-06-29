@@ -10,8 +10,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   inputText: string = '';
+  online: boolean = false;
 
   analyzeText() {
     // Placeholder method for analysis
+    console.log('Online status:', this.online);
   }
 }

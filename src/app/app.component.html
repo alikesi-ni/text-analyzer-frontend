@@ -1,6 +1,6 @@
 <div class="container mt-4 d-flex justify-content-center">
-  <form (ngSubmit)="analyzeText()" class="w-50">
-    <div class="input-group shadow-sm">
+  <form (ngSubmit)="analyzeText()" class="w-50 mb-3">
+    <div class="input-group shadow-sm mb-3">
       <input
         type="text"
         class="form-control"
@@ -10,6 +10,20 @@
         required
       />
       <button class="btn btn-primary" type="submit">Analyze</button>
+    </div>
+
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="flexSwitchCheckDefault"
+        [(ngModel)]="online"
+        name="online"
+      />
+      <label class="form-check-label" for="flexSwitchCheckDefault">
+        Online
+      </label>
     </div>
   </form>
 </div>
