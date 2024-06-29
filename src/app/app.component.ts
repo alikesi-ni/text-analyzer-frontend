@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [FormsModule]
 })
 export class AppComponent {
-  title = 'text-analyzer';
+  inputText: string = '';
+
+  analyzeText() {
+    // Placeholder method for analysis
+  }
 }

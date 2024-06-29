@@ -1,3 +1,15 @@
-<div class="container mt-4">
-  <h1>Hello World</h1>
+<div class="container mt-4 d-flex justify-content-center">
+  <form (ngSubmit)="analyzeText()" class="w-50">
+    <div class="input-group shadow-sm">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter text"
+        [(ngModel)]="inputText"
+        name="inputText"
+        required
+      />
+      <button class="btn btn-primary" type="submit">Analyze</button>
+    </div>
+  </form>
 </div>
