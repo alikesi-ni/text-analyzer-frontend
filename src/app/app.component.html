@@ -34,7 +34,7 @@
           id="vowels"
           name="letterType"
           [(ngModel)]="letterType"
-          [value]="'Vowels'"
+          [value]="'vowels'"
         />
         <label class="form-check-label" for="vowels">Vowels</label>
       </div>
@@ -45,10 +45,24 @@
           id="consonants"
           name="letterType"
           [(ngModel)]="letterType"
-          [value]="'Consonants'"
+          [value]="'consonants'"
         />
         <label class="form-check-label" for="consonants">Consonants</label>
       </div>
     </div>
+    <table class="table mt-3" *ngIf="lastResult">
+      <thead>
+      <tr>
+        <th scope="col">{{ getLetterTypeDisplay(lastResult.letterType) }}</th>
+        <th scope="col">Occurrence</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let entry of lastResult.letterOccurenceList">
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+      </tr>
+      </tbody>
+    </table>
   </form>
 </div>
