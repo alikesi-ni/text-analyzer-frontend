@@ -55,6 +55,10 @@
       {{ errorMessage }}
     </div>
 
+    <div *ngIf="lastResult && lastResult.nonAttributableCharacters && lastResult.nonAttributableCharacters.length > 0" class="text-info mt-3">
+      The following characters could not be attributed to any category: {{ lastResult.nonAttributableCharacters.join(' ') }}
+    </div>
+
     <table class="table mt-3" *ngIf="lastResult">
       <thead>
       <tr>

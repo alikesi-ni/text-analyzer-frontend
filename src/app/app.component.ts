@@ -19,11 +19,12 @@ export class AppComponent {
   letterType: 'consonants' | 'vowels' = 'vowels';
   lastResult: AnalysisResult | null = null;
   errorMessage: string = '';
-  sortedEntries: [string, number][] = [];
+  nonAttributableCharacters: string[] = [];
 
   constructor(private http: HttpClient) {}
 
   analyzeText() {
+
     if (this.online) {
       console.log('Online analyzing', this.letterType);
       this.analyzeOnline(this.letterType);
@@ -54,17 +55,23 @@ export class AppComponent {
       if (response === null) {
         return;
       }
-      this.errorMessage = '';
-      const sortedList = Object.entries(response.characterCount)
+      const tempSortedLetterCount = Object.entries(response.characterCount)
         .sort(([keyA], [keyB]) => keyA.localeCompare(keyB));
+      const tempNonAttributableCharacters = response.nonAttributableCharacters ? response.nonAttributableCharacters : [];
       const result = new AnalysisResult(
         this.inputText,
         this.letterType,
         this.online,
-        sortedList
+        tempSortedLetterCount,
+        tempNonAttributableCharacters
       );
       this.lastResult = result;
     });
+  }
+
+  private flush() {
+    this.lastResult = null;
+    this.errorMessage = '';
   }
 
   getLetterTypeDisplay(letterType: 'consonants' | 'vowels'): string {
@@ -80,17 +87,4 @@ export class AppComponent {
     }
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, body was: `, error.error);
-    }
-    // Return an observable with a user-facing error message.
-    // return throwError(() => new Error('Something bad happened; please try again later.'));
-  }
 }

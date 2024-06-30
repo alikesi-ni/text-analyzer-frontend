@@ -5,6 +5,7 @@ export class AnalysisResult {
     public input: string,
     public letterType: 'consonants' | 'vowels',
     public online: boolean,
-    public letterCountList: [string, number][]
+    public letterCountList: [string, number][],
+    public nonAttributableCharacters: string[]
   ) {}
 }
