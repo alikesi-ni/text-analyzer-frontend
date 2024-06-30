@@ -19,12 +19,11 @@ export class AppComponent {
   letterType: 'consonants' | 'vowels' = 'vowels';
   lastResult: AnalysisResult | null = null;
   errorMessage: string = '';
-  nonAttributableCharacters: string[] = [];
 
   constructor(private http: HttpClient) {}
 
   analyzeText() {
-
+    this.flush()
     if (this.online) {
       console.log('Online analyzing', this.letterType);
       this.analyzeOnline(this.letterType);
