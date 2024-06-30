@@ -26,13 +26,14 @@ export class AppComponent {
     this.flush()
     if (this.online) {
       console.log('Online analyzing', this.letterType);
-      this.analyzeOnline(this.letterType);
+      this.analyzeOnline();
     } else {
       console.log('Offline analyzing', this.letterType);
+      this.analyzeOffline();
     }
   }
 
-  analyzeOnline(letterType: AnalyzeTextRequest.LetterTypeEnum) {
+  analyzeOnline() {
     const url = 'http://localhost:8080/api/analyze';
     const request: AnalyzeTextRequest = {
       input: this.inputText,
@@ -66,6 +67,43 @@ export class AppComponent {
       );
       this.lastResult = result;
     });
+  }
+
+  private static readonly UPPER_CASE_VOWELS: string = 'AEIOU';
+  private static readonly UPPER_CASE_CONSONANTS: string = 'BCDFGHJKLMNPQRSTVWXYZ';
+  private static readonly ATTRIBUTABLE_CHARACTERS: string = AppComponent.UPPER_CASE_CONSONANTS + AppComponent.UPPER_CASE_CONSONANTS.toLowerCase() +
+    AppComponent.UPPER_CASE_VOWELS + AppComponent.UPPER_CASE_VOWELS.toLowerCase();
+
+  analyzeOffline() {
+    const letterCount: Map<string, number> = new Map();
+    const nonAttributableCharacters: Set<string> = new Set();
+
+    const lettersToCheckAgainst: string = this.letterType === 'consonants'
+      ? AppComponent.UPPER_CASE_CONSONANTS
+      : AppComponent.UPPER_CASE_VOWELS;
+
+    const input: string = this.inputText;
+
+    for (let i = 0; i < input.length; i++) {
+      const c: string = input.charAt(i);
+      const lowerCaseCharacter: string = c.toLowerCase();
+      if (AppComponent.ATTRIBUTABLE_CHARACTERS.indexOf(c) !== -1) {
+        const index: number = lettersToCheckAgainst.toLowerCase().indexOf(lowerCaseCharacter);
+        if (index !== -1) {
+          const upperCaseCharacter: string = lettersToCheckAgainst.charAt(index);
+          letterCount.set(upperCaseCharacter, (letterCount.get(upperCaseCharacter) || 0) + 1);
+        }
+      } else {
+        nonAttributableCharacters.add(c);
+      }
+    }
+    this.lastResult = new AnalysisResult(
+      input,
+      this.letterType,
+      this.online,
+      Array.from(letterCount.entries()).sort(([a], [b]) => a.localeCompare(b)),
+      Array.from(nonAttributableCharacters)
+    );
   }
 
   private flush() {
