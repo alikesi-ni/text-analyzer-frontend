@@ -50,6 +50,11 @@
         <label class="form-check-label" for="consonants">Consonants</label>
       </div>
     </div>
+
+    <div *ngIf="errorMessage" class="text-danger mb-3">
+      {{ errorMessage }}
+    </div>
+
     <table class="table mt-3" *ngIf="lastResult">
       <thead>
       <tr>
@@ -58,7 +63,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let entry of lastResult.letterOccurenceList">
+      <tr *ngFor="let entry of lastResult.letterCountList">
         <td>{{ entry[0] }}</td>
         <td>{{ entry[1] }}</td>
       </tr>

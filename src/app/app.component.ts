@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { catchError, of } from "rxjs";
 import { CommonModule } from '@angular/common';
 import {AnalysisResult} from "./analysis.result.model";
@@ -42,13 +42,19 @@ export class AppComponent {
     console.log('Request:', request);
 
     this.http.post<AnalyzeText200Response>(url, request).pipe(
-      catchError(error => {
-        this.errorMessage = 'An error occurred: ' + error.message;
+      catchError((error: HttpErrorResponse) => {
+        this.errorMessage = `The backend returned an unsuccessful response:
+        Status: ${error.status}; Status text: ${error.statusText}.
+        Please use the offline mode instead or try again later.`;
         console.error('Error:', error);
-        return of({} as AnalyzeText200Response);
+        return of(null);
       })
     ).subscribe(response => {
       console.log('Response:', response);
+      if (response === null) {
+        return;
+      }
+      this.errorMessage = '';
       const sortedList = Object.entries(response.characterCount)
         .sort(([keyA], [keyB]) => keyA.localeCompare(keyB));
       const result = new AnalysisResult(
@@ -72,5 +78,19 @@ export class AppComponent {
       // this should never be accessed
       return 'Unknown';
     }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    // return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 }
