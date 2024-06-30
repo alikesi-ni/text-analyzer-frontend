@@ -1,0 +1,14 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/default.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/analyzeText200Response.ts
+model/analyzeTextRequest.ts
+model/models.ts
+param.ts
+variables.ts
