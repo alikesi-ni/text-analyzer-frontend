@@ -51,12 +51,12 @@
       </div>
     </div>
 
-    <div *ngIf="errorMessage" class="text-danger mb-3">
+    <div *ngIf="errorMessage" class="text-danger mb-3" id="errorDiv">
       {{ errorMessage }}
     </div>
 
-    <div *ngIf="lastResult && lastResult.nonAttributableCharacters && lastResult.nonAttributableCharacters.length > 0" class="text-info mt-3">
-      The following characters could not be attributed to any category: {{ lastResult.nonAttributableCharacters.join(' ') }}
+    <div *ngIf="lastResult && lastResult.nonAttributableCharacters && getDisplayableCharacters(lastResult.nonAttributableCharacters).length > 0" class="text-info mt-3">
+      The following characters could not be attributed to any category: {{ getDisplayableCharacters(lastResult.nonAttributableCharacters).join(' ') }}
     </div>
 
     <table class="table mt-3" *ngIf="lastResult">

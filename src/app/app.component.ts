@@ -52,7 +52,9 @@ export class AppComponent {
       })
     ).subscribe(response => {
       console.log('Response:', response);
-      if (response === null) {
+      if (response === null || response.characterCount == null) {
+        this.errorMessage = 'Invalid response received from the server.';
+        console.error('Error:', this.errorMessage);
         return;
       }
       const tempSortedLetterCount = Object.entries(response.characterCount)
@@ -122,6 +124,11 @@ export class AppComponent {
       // this should never be accessed
       return 'Unknown';
     }
+  }
+
+  getDisplayableCharacters(characters: string[]): string[] {
+    // Filter out whitespace characters and create a new array
+    return characters.filter(character => character.trim().length > 0);
   }
 
 }
